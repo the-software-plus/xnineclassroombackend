@@ -1,9 +1,5 @@
 package com.br.xnineclassroom.entities;
 
-import com.br.xnineclassroom.entities.user.Student;
-import com.br.xnineclassroom.entities.utils.RoomSector;
-import com.br.xnineclassroom.enums.ComplaintSeverity;
-import com.br.xnineclassroom.enums.ComplaintStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,13 +14,19 @@ import java.time.Instant;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "complaint")
+@Table(name = "classroom")
 @EntityListeners(AuditingEntityListener.class)
-public class Complaint {
+public class Classroom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private Integer period;
+
+    @Column(nullable = false)
+    private String course;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -35,25 +37,11 @@ public class Complaint {
     private Instant lastUpdated;
 
     @Column(nullable = false)
-    private String title;
+    private Integer classNumber;
 
     @Column(nullable = false)
-    private String content;
+    private Integer rowQuantity = 3;
 
-    @Enumerated(EnumType.STRING)
-    private ComplaintStatus status = ComplaintStatus.OPEN;
-
-    @Enumerated(EnumType.STRING)
-    private ComplaintSeverity severity = ComplaintSeverity.MEDIUM;
-
-    @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
-    private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "classroom_id", nullable = false)
-    private Classroom classroom;
-
-    @Embedded
-    private RoomSector sector;
+    @Column(nullable = false)
+    private Integer columnQuantity = 3;
 }
